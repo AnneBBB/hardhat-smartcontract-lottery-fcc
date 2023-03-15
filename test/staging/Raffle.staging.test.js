@@ -36,12 +36,12 @@ developmentChains.includes(network.name)
                               // => winner = deployer
                               const endingTimeStamp = await raffle.getLatestTimeStamp()
 
-                              await expect(raffle.getPlayers(0)).to.be.reverted
+                              await expect(raffle.getPlayer(0)).to.be.reverted
                               assert.equal(recentWinner.toString(), accounts[0].address)
                               assert.equal(raffleState, 0)
                               assert.equal(
                                   winnerEndingBalance.toString(),
-                                  winnerStartingBalance.add(raffleEntranceFee).toString
+                                  winnerStartingBalance.add(raffleEntranceFee).toString()
                               )
                               assert(endingTimeStamp > startingTimeStamp)
                               resolve()
@@ -54,10 +54,6 @@ developmentChains.includes(network.name)
                       await tx.wait(1)
                       console.log("waiting...")
                       const winnerStartingBalance = await accounts[0].getBalance()
-                      const { upkeepNeeded } = await raffle.callStatic.checkUpkeep([])
-                      console.log(upkeepNeeded)
-                      raffleState = await raffle.getRaffleState()
-                      console.log(raffleState)
                   })
               })
           })
